@@ -36,7 +36,14 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+    public static function boot()
+        {
+            parent::boot();
 
+            static::creating(function ($user) {
+                $user->activation_token = str_random(30);
+            });
+        }
     /**
     * gravatar() to get user's photo
     **/
